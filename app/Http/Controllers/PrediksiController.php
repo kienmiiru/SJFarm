@@ -18,6 +18,8 @@ class PrediksiController extends Controller
             ->orderBy('month')
             ->get();
 
+        $fruitNames = DB::table('fruits')->pluck('name', 'id');
+
         $historicalData = $rawData->groupBy('fruit_id')->map(function ($records) {
             return collect($this->normalizeTimeSeries($records));
         });
@@ -35,7 +37,8 @@ class PrediksiController extends Controller
         // dd(json_encode($historicalData), json_encode($predictions));
         return view('admin.prediksi', [
             'historicalData' => $historicalData,
-            'predictions' => $predictions
+            'predictions' => $predictions,
+            'fruitNames' => $fruitNames
         ]);
     }
     public function normalizeTimeSeries($records)

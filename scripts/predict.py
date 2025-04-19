@@ -18,7 +18,7 @@ for fruit_id, records in data.items():
     #     continue
 
     try:
-        model = ExponentialSmoothing(df['total'], seasonal='add', seasonal_periods=5)
+        model = ExponentialSmoothing(df['total'], seasonal='add', seasonal_periods=6)
         fit = model.fit()
         forecast = fit.forecast(3)  # 3 bulan ke depan
         forecast_dict = {date.strftime("%Y-%m"): float(value) for date, value in forecast.items()}
