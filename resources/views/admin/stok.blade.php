@@ -43,11 +43,11 @@
                 </div>
                 <div>
                     <label class="block font-medium">Stok (kg)</label>
-                    <input type="number" id="fruit-stock" class="w-full border p-2 rounded" min="0">
+                    <input type="number" id="fruit-stock" class="w-full border p-2 rounded">
                 </div>
                 <div>
                     <label class="block font-medium">Harga per kg</label>
-                    <input type="number" id="fruit-price" class="w-full border p-2 rounded" min="0">
+                    <input type="number" id="fruit-price" class="w-full border p-2 rounded">
                 </div>
                 <div class="flex space-x-2">
                     <button type="button" id="cancel-btn" class="px-4 py-2 rounded-4xl bg-botan hover:bg-botan/80">
