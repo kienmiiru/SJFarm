@@ -49,11 +49,11 @@
                     <label class="block font-medium">Harga per kg</label>
                     <input type="number" id="fruit-price" class="w-full border p-2 rounded" min="0">
                 </div>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" id="cancel-btn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                <div class="flex space-x-2">
+                    <button type="button" id="cancel-btn" class="px-4 py-2 rounded-4xl bg-botan hover:bg-botan/80">
                         Batal
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <button type="submit" class="px-4 py-2 rounded-4xl bg-botan hover:bg-botan/80">
                         Kirim
                     </button>
                 </div>
