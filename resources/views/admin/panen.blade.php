@@ -214,7 +214,13 @@
         btnConfirmCancel.addEventListener('click', hideConfirm);
 
         btnConfirmOk.addEventListener('click', () => {
-            fetch(`/admin/api/harvests/${currentDeleteId}`, { method: 'DELETE' })
+            fetch(`/admin/api/harvests/${currentDeleteId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
                 .then(res => res.json())
                 .then(() => {
                     hideConfirm();
