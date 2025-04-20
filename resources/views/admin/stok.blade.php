@@ -92,13 +92,13 @@
             document.getElementById('fruit-modal').classList.remove('hidden');
         }
 
-        function closeModal() {
+        function closeModal(success) {
             document.getElementById('fruit-modal').classList.add('hidden');
-            document.getElementById('form-success').classList.remove('hidden');
+            success && document.getElementById('form-success').classList.remove('hidden');
         }
 
         document.getElementById('add-fruit-btn').addEventListener('click', () => openModal());
-        document.getElementById('cancel-btn').addEventListener('click', closeModal);
+        document.getElementById('cancel-btn').addEventListener('click', () => closeModal(false));
 
         document.getElementById('fruit-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -136,7 +136,7 @@
                 body: JSON.stringify(payload)
             });
 
-            closeModal();
+            closeModal(true);
             fetchFruits();
         });
 
