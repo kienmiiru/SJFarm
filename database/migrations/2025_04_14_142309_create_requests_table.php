@@ -16,10 +16,17 @@ return new class extends Migration
             $table->decimal('requested_stock_in_kg');
             $table->integer('total_price');
             $table->timestamp('requested_date');
+            $table->timestamp('status_changed_date')->nullable();
+            $table->text('status_changed_message')->nullable();
+            
             $table->unsignedBigInteger('fruit_id');
             $table->foreign('fruit_id')->references('id')->on('fruits')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('distributor_id');
+            
+            $table->unsignedBigInteger('distributor_id')->nullable();
             $table->foreign('distributor_id')->references('id')->on('distributors')->onUpdate('cascade')->onDelete('cascade');
+            
+            $table->unsignedBigInteger('status_id')->nullable();
+            $table->foreign('status_id')->references('id')->on('statuses')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

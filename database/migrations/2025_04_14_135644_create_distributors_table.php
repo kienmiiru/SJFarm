@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password_hash');
             $table->timestamps();
             $table->timestamp('last_access');
+            $table->softDeletes();
         });
     }
 

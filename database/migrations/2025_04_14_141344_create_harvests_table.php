@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('harvests', function (Blueprint $table) {
             $table->id();
+            $table->date('harvest_date');
             $table->decimal('amount_in_kg');
             $table->unsignedBigInteger('fruit_id');
             $table->foreign('fruit_id')->references('id')->on('fruits')->onUpdate('cascade')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
