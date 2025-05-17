@@ -13,8 +13,8 @@ class PrediksiController extends Controller
     public function index()
     {
         $rawData = DB::table('requests')
-            ->select(DB::raw("fruit_id, strftime('%Y-%m', requested_date) as month, SUM(requested_stock_in_kg) as total"))
-            ->groupBy('fruit_id', DB::raw("strftime('%Y-%m', requested_date)"))
+            ->select(DB::raw("fruit_id, DATE_FORMAT(requested_date, '%Y-%m') as month, SUM(requested_stock_in_kg) as total"))
+            ->groupBy('fruit_id', DB::raw("DATE_FORMAT(requested_date, '%Y-%m')"))
             ->orderBy('month')
             ->get();
 
