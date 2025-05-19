@@ -18,6 +18,5 @@ class FruitSeeder extends Seeder
             ['id' => 2, 'name' => 'Apel', 'stock_in_kg' => 20, 'price_per_kg' => 30000],
             ['id' => 3, 'name' => 'Anggur', 'stock_in_kg' => 100, 'price_per_kg' => 50000],
         ]);
-        //
     }
 }

@@ -17,7 +17,13 @@ class DistributorFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->company(),
+            'address' => $this->faker->address(),
+            'email' => $this->faker->companyEmail(),
+            'phone_number' => $this->faker->phoneNumber(),
+            'username' => $this->faker->userName(),
+            'password_hash' => password_hash('rahasia', PASSWORD_DEFAULT),
+            'last_access' => now()
         ];
     }
 }

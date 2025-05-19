@@ -16,7 +16,7 @@
             <div id="form-success" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
-            <h1 class="text-2xl font-bold mb-4">Riwayat Hasil Data Panen</h1>
+            <h1 class="text-2xl font-semibold text-center mb-4">Riwayat Hasil Data Panen</h1>
             <button id="btnAdd" class="mb-6 px-4 py-2 bg-cpink rounded hover:bg-cpink/80">
                 Tambah Data Panen
             </button>
