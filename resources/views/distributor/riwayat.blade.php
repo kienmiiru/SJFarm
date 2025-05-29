@@ -29,17 +29,26 @@
                 .then(json => {
                     requestList.innerHTML = '';
                     json.data.forEach(item => {
+                        const requestedDate = new Date(item.requested_date);
+                        const dateString = requestedDate.toLocaleDateString('id-ID', {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "2-digit",
+                        });
+                        const timeString = requestedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
+
                         const card = document.createElement('div');
                         card.className = 'bg-white p-4 rounded shadow w-5/11 m-1';
                         card.innerHTML = `
                             <p>Buah:</p>
                             <p class="border-b-1 my-4">Buah ${item.fruit.name}</p>
                             <p>Jumlah Permintaan:</p>
-                            <p class="border-b-1 my-4">${item.requested_stock_in_kg} kg</p>
+                            <p class="border-b-1 my-4">${parseFloat(item.requested_stock_in_kg).toLocaleString('id-ID')} kg</p>
                             <p>Total Harga:</p>
-                            <p class="border-b-1 my-4">Rp. ${item.total_price}</p>
+                            <p class="border-b-1 my-4">Rp${item.total_price.toLocaleString('id-ID')}</p>
                             <p>Tanggal Diajukan:</p>
-                            <p class="border-b-1 my-4">${item.requested_date}</p>
+                            <p class="border-b-1 my-4">${dateString} ${timeString}</p>
                             <p>Status:</p>
                             <p class="border-b-1 my-4"></p>`;
                         const statusP = card.lastElementChild;

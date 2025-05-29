@@ -61,7 +61,7 @@
                     json.data.forEach(fruit => {
                         const opt = document.createElement('option');
                         opt.value = fruit.id;
-                        opt.textContent = fruit.name + ` (stok: ${fruit.stock_in_kg} kg)`;
+                        opt.textContent = fruit.name + ` (stok: ${parseFloat(fruit.stock_in_kg).toLocaleString('id-ID')} kg)`;
                         opt.setAttribute('stock-in-kg', fruit.stock_in_kg);
                         opt.setAttribute('price-per-kg', fruit.price_per_kg);
                         fruitSelect.appendChild(opt);
@@ -80,7 +80,7 @@
             const requestedStockInKg = parseInt(requestedStockKg.value);
 
             const price = pricePerKg * requestedStockInKg;
-            totalPrice.innerText = `Harga: Rp. ${pricePerKg} x ${requestedStockInKg} = Rp. ${price}`
+            totalPrice.innerText = `Harga: Rp${pricePerKg.toLocaleString('id-ID')} x ${requestedStockInKg.toLocaleString('id-ID')} = Rp${price.toLocaleString('id-ID')}`
             return price;
         }
 

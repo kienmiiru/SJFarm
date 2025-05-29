@@ -31,9 +31,9 @@
                     <p class="m-4">Buah:</p>
                     <p class="border-b-1 m-4 w-1/2">Buah ${fruit.name}</p>
                     <p class="m-4">Jumlah Stok:</p>
-                    <p class="border-b-1 m-4 w-1/2">${fruit.stock_in_kg} Kg</p>
+                    <p class="border-b-1 m-4 w-1/2">${parseFloat(fruit.stock_in_kg).toLocaleString('id-ID')} kg</p>
                     <p class="m-4">Harga:</p>
-                    <p class="border-b-1 m-4 w-1/2">${fruit.price_per_kg}/Kg</p>
+                    <p class="border-b-1 m-4 w-1/2">Rp${fruit.price_per_kg.toLocaleString('id-ID')}/kg</p>
                 `;
                 container.appendChild(row);
             });
