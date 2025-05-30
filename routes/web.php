@@ -18,6 +18,7 @@ Route::get('/admin/dashboard', function () {
 
 Route::get('/admin/prediksi', [PrediksiController::class, 'index'])->name('prediksi.index');
 Route::view('/admin/stok', 'admin.stok');
+Route::view('/admin/permintaan-pembelian', 'admin.permintaan-pembelian');
 Route::view('/admin/distributor', 'admin.distributor');
 Route::view('/admin/panen', 'admin.panen');
 

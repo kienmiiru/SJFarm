@@ -47,7 +47,7 @@
         const totalPrice = document.getElementById('totalPrice');
 
         function showResult(message, red = false) {
-            formResult.classList.remove('hidden');
+            formResult.classList.remove('hidden', 'bg-red-600', 'bg-caqua');
             formResult.classList.add(red ? 'bg-red-600' : 'bg-caqua');
             formResult.innerText = message
         }
