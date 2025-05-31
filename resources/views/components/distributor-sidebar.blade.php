@@ -20,7 +20,7 @@
             <i class="fa fa-gear"></i> Pengaturan
         </div>
         <div class="my-1 rounded-md px-1 py-2 cursor-pointer">
-            <i class="fa fa-arrow-right-from-bracket"></i> Keluar
+            <a href="/logout"><i class="fa fa-arrow-right-from-bracket"></i> Keluar</a>
         </div>
     </div>
 </div>
