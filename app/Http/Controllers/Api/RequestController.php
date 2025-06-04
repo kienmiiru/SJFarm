@@ -13,7 +13,7 @@ class RequestController extends Controller
 {
     public function index()
     {
-        $distributorId = 1; // TODO: sesuaikan id setelah ada fitur login
+        $distributorId = session('distributor_id');
 
         $requests = Request::with('fruit', 'status')
             ->where('distributor_id', $distributorId)
@@ -28,7 +28,7 @@ class RequestController extends Controller
 
     public function show($id)
     {
-        $distributorId = 1; // TODO: sesuaikan id setelah ada fitur login
+        $distributorId = session('distributor_id');
 
         $request = Request::with('fruit', 'status')
             ->where('id', $id)
@@ -53,7 +53,7 @@ class RequestController extends Controller
             ], 422);
         }
 
-        $distributorId = 1; // TODO: sesuaikan id setelah ada fitur login
+        $distributorId = session('distributor_id');
         $fruit = Fruit::findOrFail($httpRequest->fruit_id);
 
         $stock = $httpRequest->requested_stock_in_kg;

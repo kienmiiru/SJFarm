@@ -13,47 +13,10 @@
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
         <div class="col-span-4">
-            <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
+            <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
-            <div id="requestList" class="flex flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8">
-                <div class="bg-white p-4 rounded-4xl shadow w-5/11 m-1">
-                    <p class="my-4 text-xl">PD Budiyanto Permadi (Persero) Tbk</p>
-                    <hr>
-                    <p class="my-4">Buah: Jeruk</p>
-                    <hr>
-                    <p class="my-4">Permintaan: 200 kg</p>
-                    <hr>
-                    <p class="my-4">Harga: Rp4.455.000</p>
-                    <hr>
-                    <p class="my-4">Tanggal Diajukan: Kamis, 22 Mei 2025 07.58.43 WIB</p>
-                    <hr>
-                    <p class="my-4">Status: Menunggu persetujuan</p>
-                    <hr>
-                    <div class="flex justify-around mt-4">
-                        <button class="bg-botan2 px-2 py-1 rounded-4xl">Terima</button>
-                        <button class="bg-botan2 px-2 py-1 rounded-4xl">Tolak</button>
-                    </div>
-                </div>
-                <div class="bg-white p-4 rounded-4xl shadow w-5/11 m-1">
-                    <p class="my-4 text-xl">PD Budiyanto Permadi (Persero) Tbk</p>
-                    <hr>
-                    <p class="my-4">Buah: Jeruk</p>
-                    <hr>
-                    <p class="my-4">Permintaan: 200 kg</p>
-                    <hr>
-                    <p class="my-4">Harga: Rp4.455.000</p>
-                    <hr>
-                    <p class="my-4">Tanggal Diajukan: Kamis, 22 Mei 2025 07.58.43 WIB</p>
-                    <hr>
-                    <p class="my-4">Status: Menunggu persetujuan</p>
-                    <hr>
-                    <div class="flex justify-around mt-4">
-                        <button class="bg-botan2 px-2 py-1 rounded-4xl">Terima</button>
-                        <button class="bg-botan2 px-2 py-1 rounded-4xl">Tolak</button>
-                    </div>
-                </div>
-            </div>
+            <div id="requestList" class="flex flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
         </div>
     </div>
 

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AdminAccountController;
 use App\Http\Controllers\Api\AdminRequestController;
+use App\Http\Controllers\Api\DistributorAccountController;
 use App\Http\Controllers\Api\DistributorController;
 use App\Http\Controllers\Api\FruitController;
 use App\Http\Controllers\Api\HarvestController;
@@ -8,6 +10,8 @@ use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PrediksiController;
 use App\Http\Middleware\EnsureUserHasRole;
+use App\Models\Admin;
+use App\Models\Distributor;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
@@ -22,6 +26,10 @@ Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
     Route::view('/admin/permintaan-pembelian', 'admin.permintaan-pembelian');
     Route::view('/admin/distributor', 'admin.distributor');
     Route::view('/admin/panen', 'admin.panen');
+    Route::get('/admin/akun', function () {
+        $admin = Admin::find(session('admin_id'));
+        return view('admin.akun', compact(['admin']));
+    });
 
     Route::get('/admin/api/fruits', [FruitController::class, 'index']);
     Route::post('/admin/api/fruits', [FruitController::class, 'store']);
@@ -41,6 +49,8 @@ Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
     Route::get('/admin/api/distributors/{id}', [DistributorController::class, 'show']);
     Route::put('/admin/api/distributors/{id}', [DistributorController::class, 'update']);
     Route::delete('/admin/api/distributors/{id}', [DistributorController::class, 'destroy']);
+   
+    Route::put('/admin/api/account', [AdminAccountController::class, 'update']);
 });
 
 Route::middleware(EnsureUserHasRole::class.':distributor')->group(function () {
@@ -48,10 +58,16 @@ Route::middleware(EnsureUserHasRole::class.':distributor')->group(function () {
     Route::view('/distributor/buah', 'distributor.buah');
     Route::view('/distributor/pemesanan', 'distributor.pemesanan');
     Route::view('/distributor/riwayat', 'distributor.riwayat');
+    Route::get('/distributor/akun', function () {
+        $distributor = Distributor::find(session('distributor_id'));
+        return view('distributor.akun', compact(['distributor']));
+    });
 
     Route::get('/distributor/api/fruits', [FruitController::class, 'index']);
 
     Route::get('/distributor/api/requests', [RequestController::class, 'index']);
     Route::get('/distributor/api/requests/{id}', [RequestController::class, 'show']);
     Route::post('/distributor/api/requests', [RequestController::class, 'store']);
+   
+    Route::put('/distributor/api/account', [DistributorAccountController::class, 'update']);
 });
