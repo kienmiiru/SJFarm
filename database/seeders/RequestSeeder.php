@@ -13,7 +13,7 @@ class RequestSeeder extends Seeder
      */
     public function run(): void
     {
-        $requests = Request::factory()->count(50)->make()->sortBy('requested_date')->values();
+        $requests = Request::factory()->count(100)->make()->sortBy('requested_date')->values();
         foreach ($requests as $request) {
             $request->save();
         }

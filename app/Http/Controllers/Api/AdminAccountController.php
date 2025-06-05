@@ -20,10 +20,16 @@ class AdminAccountController extends Controller
             ], 401);
         }
 
+        $messages = [
+            'username.unique' => 'Username sudah digunakan.',
+            'password.min' => 'Password harus memiliki minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+        ];
+
         $request->validate([
-            'username' => 'sometimes|string|max:255|unique:admins,username,' . $adminId,
+            'username' => 'sometimes|string|max:15|unique:admins,username,' . $adminId,
             'password' => 'sometimes|string|min:8|confirmed',
-        ]);
+        ], $messages);
 
         $admin = Admin::find($adminId);
 
