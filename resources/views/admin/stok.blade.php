@@ -13,7 +13,7 @@
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
         <div class="col-span-4 p-6">
-            <div id="form-success" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
+            <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 text-xl hidden">
                 Data berhasil ditambahkan
             </div>
             <h1 class="text-2xl font-bold mb-4">Stok Buah Saat Ini</h1>
@@ -62,6 +62,14 @@
     </div>
 
     <script>
+        const successBox = document.getElementById('successBox');
+
+        function showSuccess(message) {
+            successBox.innerText = message;
+            successBox.classList.remove('hidden');
+            setTimeout(() => successBox.classList.add('hidden'), 2000);
+        }
+
         let editMode = false;
         let editId = null;
 
@@ -94,7 +102,7 @@
 
         function closeModal(success) {
             document.getElementById('fruit-modal').classList.add('hidden');
-            success && document.getElementById('form-success').classList.remove('hidden');
+            success && showSuccess(editMode ? 'Data berhasil diubah' : 'Data berhasil ditambahkan');
         }
 
         document.getElementById('add-fruit-btn').addEventListener('click', () => openModal());
