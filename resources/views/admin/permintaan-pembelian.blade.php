@@ -16,6 +16,9 @@
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
+            <div class="flex justify-end m-8">
+                <button id="importButton" class="bg-botan2 px-4 py-2 rounded-4xl">Import Data</button>
+            </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
         </div>
     </div>
@@ -26,7 +29,20 @@
             <input class="w-full m-2 p-2 border-2 bg-white" type="text" name="msg" id="msg" placeholder="Pesan untuk distributor... (opsional)">
             <div id="confirmButtons" class="flex space-x-2 justify-center">
                 <button class="bg-botan2 px-2 py-1 rounded-4xl">Konfirmasi</button>
-                <button class="bg-botan2 px-2 py-1 rounded-4xl">Batak</button>
+                <button class="bg-botan2 px-2 py-1 rounded-4xl">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="importModal" class="fixed inset-0 bg-black/40 flex hidden flex-col items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md mt-2">
+            <p class="text-lg font-bold">Instruksi Import Data</p>
+            <p class="mt-2">Silakan pilih file Excel (.xlsx atau .xls) yang ingin diunggah untuk mengimport data permintaan.</p>
+            <input id="importFile" type="file" class="hidden" accept=".xlsx,.xls">
+            <div id="errorBox" class="text-red-500 mt-2 hidden"></div>
+            <div class="flex justify-center mt-4">
+                <button id="uploadButton" class="bg-botan2 px-4 py-2 rounded-4xl">Upload</button>
+                <button id="closeImportModal" class="bg-botan2 px-4 py-2 rounded-4xl ml-2">Batal</button>
             </div>
         </div>
     </div>
@@ -167,6 +183,79 @@
                     });
                 });
         }
+
+        const importButton = document.getElementById('importButton');
+        const importFile = document.getElementById('importFile');
+        const importModal = document.getElementById('importModal');
+        const uploadButton = document.getElementById('uploadButton');
+        const closeImportModal = document.getElementById('closeImportModal');
+        const errorBox = document.getElementById('errorBox');
+
+        importButton.addEventListener('click', () => {
+            importModal.classList.remove('hidden');
+            errorBox.classList.add('hidden');
+            errorBox.innerText = '';
+        });
+
+        closeImportModal.addEventListener('click', () => {
+            importModal.classList.add('hidden');
+        });
+
+        uploadButton.addEventListener('click', async () => {
+            importFile.click();
+        });
+
+        importFile.addEventListener('change', async () => {
+            const file = importFile.files[0];
+            if (!file) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const validateResponse = await fetch('/admin/api/requests/validate-xlsx', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                });
+                const validateResult = await validateResponse.json();
+
+                if (validateResult.status === 'error') {
+                    errorBox.innerText = validateResult.errors.map(e => `Row ${e.row}: ${e.error}`).join('\n');
+                    errorBox.classList.remove('hidden');
+                    importFile.value = '';
+                    return;
+                }
+
+                const importResponse = await fetch('/admin/api/requests/import-xlsx', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                });
+                const importResult = await importResponse.json();
+
+                if (importResult.status === 'error') {
+                    errorBox.innerText = importResult.message;
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                showSuccess(importResult.message);
+                renderRequests();
+                importModal.classList.add('hidden');
+            } catch (error) {
+                errorBox.innerText = 'Terjadi kesalahan saat mengimport data.';
+                errorBox.classList.remove('hidden');
+            }
+        });
 
         renderRequests();
     </script>

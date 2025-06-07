@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request as HttpRequest; // agar tidak konflik dengan model Request
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Storage;
@@ -31,10 +32,10 @@ class RequestImportController extends Controller
             $rowNum = $index + 2; // considering headers in row 1
             [$stock, $price, $date, $fruitName, $distributorName] = $row;
 
-            if (!is_int($stock) || !is_int($price)) {
+            if (!is_numeric($stock) || !is_numeric($price)) {
                 $errors[] = [
                     'row' => $rowNum,
-                    'error' => 'Stok dan harga harus bilangan bulat.'
+                    'error' => 'Stok dan harga harus angka.'
                 ];
             }
 
@@ -98,7 +99,7 @@ class RequestImportController extends Controller
                     'total_price' => (int) $price,
                     'requested_date' => \Carbon\Carbon::parse($date),
                     'status_changed_date' => now(),
-                    'status_changed_message' => 'Imported via validated XLSX',
+                    'status_changed_message' => 'Diimpor dari XLSX',
                     'fruit_id' => $fruit->id,
                     'distributor_id' => $distributor->id,
                     'status_id' => 2,
@@ -106,7 +107,6 @@ class RequestImportController extends Controller
             }
 
             DB::commit();
-            Storage::delete($request->temp_file);
 
             return response()->json([
                 'status' => 'success',
