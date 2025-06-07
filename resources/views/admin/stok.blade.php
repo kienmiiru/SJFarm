@@ -135,17 +135,29 @@
             const url = editMode ? `/admin/api/fruits/${editId}` : '/admin/api/fruits';
             const method = editMode ? 'PUT' : 'POST';
 
-            await fetch(url, {
+            fetch(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify(payload)
-            });
-
-            closeModal(true);
-            fetchFruits();
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (json.status === 'error') {
+                        if (json.data) {
+                            const messages = Object.values(json.data).flat().join('\n');
+                            document.getElementById('form-error').textContent = messages;
+                        } else {
+                            document.getElementById('form-error').textContent = json.message || 'Isi data dengan benar.';
+                        }
+                        document.getElementById('form-error').classList.remove('hidden');
+                    } else {
+                        closeModal(true);
+                        fetchFruits();
+                    }
+                });
         });
 
         document.addEventListener('DOMContentLoaded', fetchFruits);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fruits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->decimal('stock_in_kg');
             $table->integer('price_per_kg');
         });

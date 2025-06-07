@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\HarvestController;
 use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\RequestImportController;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Models\Admin;
 use App\Models\Distributor;
@@ -62,6 +63,9 @@ Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
     Route::get('/admin/api/requests', [AdminRequestController::class, 'index']);
     Route::patch('/admin/api/requests/{id}/approve', [AdminRequestController::class, 'approve']);
     Route::patch('/admin/api/requests/{id}/reject', [AdminRequestController::class, 'reject']);
+
+    Route::post('/admin/api/requests/validate-xlsx', [RequestImportController::class, 'validateXlsx']);
+    Route::post('/admin/api/requests/import-xlsx', [RequestImportController::class, 'importXlsx']);
 
     Route::get('/admin/api/distributors', [DistributorController::class, 'index']);
     Route::post('/admin/api/distributors', [DistributorController::class, 'store']);

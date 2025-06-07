@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Fruit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FruitController extends Controller
 {
@@ -21,11 +22,23 @@ class FruitController extends Controller
     // Menambah data buah baru
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $messages = [
+            'name.unique' => 'Nama buah sudah ada.'
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:fruits,name',
             'stock_in_kg' => 'required|numeric|min:0',
             'price_per_kg' => 'required|integer|min:0',
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Isi data dengan benar.',
+                'data' => $validator->errors(),
+            ], 422);
+        }
 
         $fruit = Fruit::create($request->only(['name', 'stock_in_kg', 'price_per_kg']));
 
@@ -41,11 +54,23 @@ class FruitController extends Controller
     {
         $fruit = Fruit::findOrFail($id);
 
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'stock_in_kg' => 'sometimes|required|numeric|min:0',
-            'price_per_kg' => 'sometimes|required|integer|min:0',
-        ]);
+        $messages = [
+            'name.unique' => 'Nama buah sudah ada.'
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:fruits,name,' . $fruit->id,
+            'stock_in_kg' => 'required|numeric|min:0',
+            'price_per_kg' => 'required|integer|min:0',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Isi data dengan benar.',
+                'data' => $validator->errors(),
+            ], 422);
+        }
 
         $fruit->update($request->only(['name', 'stock_in_kg', 'price_per_kg']));
 
