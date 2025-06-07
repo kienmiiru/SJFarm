@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.distributor-sidebar')
-        <div id="fruit-list" class="col-span-4 p-6">
+        <div id="fruit-list" class="col-span-full md:col-span-4 min-h-screen">
             Memuat...
         </div>
     </div>

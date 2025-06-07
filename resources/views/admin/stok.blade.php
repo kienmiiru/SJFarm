@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-4 p-6">
+        <div class="col-span-full md:col-span-4 min-h-screen p-6">
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 text-xl hidden">
                 Data berhasil ditambahkan
             </div>

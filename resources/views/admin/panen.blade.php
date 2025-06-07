@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-4 p-8">
+        <div class="col-span-full md:col-span-4 min-h-screen p-8">
             <div id="form-success" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
@@ -21,14 +21,14 @@
                 Tambah Data Panen
             </button>
 
-            <div id="harvestList" class="flex flex-wrap justify-between">
+            <div id="harvestList" class="md:flex md:flex-wrap justify-between">
                 <!-- Kartu panen akan dimuat di sini -->
             </div>
         </div>
     </div>
 
     <!-- Popup Tambah/Edit -->
-    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex flex-col items-center justify-center z-50">
+    <div id="formModal" class="fixed inset-0 bg-black/40 hidden flex flex-col items-center justify-center z-50">
         <div id="formError" class="bg-red-600 w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
             Isi data dengan benar
         </div>
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Popup Konfirmasi Hapus -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50">
+    <div id="confirmModal" class="fixed inset-0 bg-black/40 hidden flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg w-full max-w-sm">
             <p class="text-lg font-medium mb-4 text-center">Konfirmasi dihapus?</p>
             <div class="flex space-x-2 justify-center">
@@ -141,7 +141,7 @@
                 .then(json => {
                     json.data.forEach(item => {
                         const card = document.createElement('div');
-                        card.className = 'bg-white p-4 rounded shadow w-5/11 m-1';
+                        card.className = 'bg-white p-4 rounded shadow md:w-5/11 m-1';
                         card.innerHTML = `
                             <div class="font-semibold">${item.harvest_date}</div>
                             <div>Buah: ${item.fruit}</div>

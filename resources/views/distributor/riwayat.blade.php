@@ -11,10 +11,10 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.distributor-sidebar')
-        <div class="col-span-4 p-8">
+        <div class="col-span-full md:col-span-4 min-h-screen p-8">
             <h1 class="text-2xl font-semibold text-center mb-4">Riwayat Permintaan</h1>
 
-            <div id="requestList" class="flex flex-wrap justify-between">
+            <div id="requestList" class="md:flex md:flex-wrap justify-between">
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                         const timeString = requestedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
 
                         const card = document.createElement('div');
-                        card.className = 'bg-white p-4 rounded shadow w-5/11 m-1';
+                        card.className = 'bg-white p-4 rounded shadow md:w-5/11 m-1';
                         card.innerHTML = `
                             <p>Buah:</p>
                             <p class="border-b-1 my-4">Buah ${item.fruit.name}</p>

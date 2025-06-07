@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AdminAccountController extends Controller
 {
@@ -26,10 +27,18 @@ class AdminAccountController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak sesuai.',
         ];
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'username' => 'sometimes|string|max:15|unique:admins,username,' . $adminId,
             'password' => 'sometimes|string|min:8|confirmed',
         ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Isi data dengan benar.',
+                'data' => $validator->errors(),
+            ], 422);
+        }
 
         $admin = Admin::find($adminId);
 

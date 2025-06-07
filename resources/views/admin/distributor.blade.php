@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-4 p-8">
+        <div class="col-span-full md:col-span-4 min-h-screen p-8">
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
@@ -27,7 +27,7 @@
                 Tambah
             </button>
 
-            <div id="distributorList" class="flex flex-wrap justify-center">Memuat...</div>
+            <div id="distributorList" class="md:flex md:flex-wrap justify-center">Memuat...</div>
         </div>
     </div>
 
@@ -126,7 +126,7 @@
                 .then(json => {
                     json.data.forEach(item => {
                         const card = document.createElement('div');
-                        card.className = 'bg-clgreen p-4 rounded-3xl border-2 w-2/7 m-4 flex flex-col';
+                        card.className = 'bg-clgreen p-4 rounded-3xl border-2 md:w-2/7 m-4 flex flex-col';
                         card.innerHTML = `
                             <div class="font-semibold">${item.name}</div>
                             <div class="text-cdlime2">${item.address}</div>
@@ -193,7 +193,12 @@
                 .then(res => res.json())
                 .then(json => {
                     if (json.status === 'error') {
-                        formError.innerText = json.message || 'Isi data dengan benar.';
+                        if (json.data) {
+                            const messages = Object.values(json.data).flat().join('\n');
+                            formError.innerText = messages;
+                        } else {
+                            formError.innerText = json.message || 'Isi data dengan benar.';
+                        }
                         formError.classList.remove('invisible');
                     } else {
                         showSuccess(id ? 'Data Berhasil Diperbaharui' : 'Data Berhasil Ditambahkan');

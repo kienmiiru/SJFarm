@@ -12,6 +12,8 @@ use App\Http\Controllers\PrediksiController;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Models\Admin;
 use App\Models\Distributor;
+use App\Models\Request;
+use App\Models\Fruit;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
@@ -19,7 +21,24 @@ Route::post('/', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
-    Route::view('/admin/dashboard', 'admin.dashboard');
+    // Route::view('/admin/dashboard', 'admin.dashboard');
+    Route::get('/admin/dashboard', function () {
+        $admin = Admin::find(session('admin_id'));
+        $unconfirmedRequestsCount = Request::where('status_id', 1)->count();
+        $incomeThisMonth = Request::whereMonth('requested_date', now()->month)
+            ->whereYear('requested_date', now()->year)
+            ->where('status_id', 2)
+            ->sum('total_price');
+        $distributorsCount = Distributor::count();
+        $fruits = Fruit::all();
+        return view('admin.dashboard', compact([
+            'admin',
+            'unconfirmedRequestsCount',
+            'incomeThisMonth',
+            'distributorsCount',
+            'fruits'
+        ]));
+    });
 
     Route::get('/admin/prediksi', [PrediksiController::class, 'index'])->name('prediksi.index');
     Route::view('/admin/stok', 'admin.stok');
@@ -54,7 +73,18 @@ Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
 });
 
 Route::middleware(EnsureUserHasRole::class.':distributor')->group(function () {
-    Route::view('/distributor/dashboard', 'distributor.dashboard');
+    // Route::view('/distributor/dashboard', 'distributor.dashboard');
+    Route::get('/distributor/dashboard', function () {
+        $distributor = Distributor::find(session('distributor_id'));
+        $unconfirmedRequestsCount = Request::where('status_id', 1)
+            ->where('distributor_id', session('distributor_id'))
+            ->count();
+        $finishedRequestsCount = Request::where('status_id', 2)
+            ->where('distributor_id', session('distributor_id'))
+            ->count();
+        return view('distributor.dashboard', compact(['distributor', 'unconfirmedRequestsCount', 'finishedRequestsCount']));
+    });
+    
     Route::view('/distributor/buah', 'distributor.buah');
     Route::view('/distributor/pemesanan', 'distributor.pemesanan');
     Route::view('/distributor/riwayat', 'distributor.riwayat');

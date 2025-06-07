@@ -12,11 +12,11 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-4">
+        <div class="col-span-full md:col-span-4 min-h-screen">
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
-            <div id="requestList" class="flex flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
+            <div id="requestList" class="md:flex md:flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
         </div>
     </div>
 
@@ -118,7 +118,7 @@
                         const timeString = requestedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
 
                         const card = document.createElement('div');
-                        card.className = 'bg-white p-4 rounded-4xl shadow w-5/11 m-1';
+                        card.className = 'bg-white p-4 rounded-4xl shadow md:w-5/11 m-1';
                         card.innerHTML = `
                             <p class="my-4 text-xl">${item.distributor?.name || '-'}</p>
                             <hr>

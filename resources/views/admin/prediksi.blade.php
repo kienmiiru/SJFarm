@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-4">
+        <div class="col-span-full md:col-span-4 min-h-screen">
             <div class="p-4">
                 <h2 class="text-xl font-bold mb-4">Prediksi Permintaan Buah (3 Bulan Ke Depan)</h2>
                 @foreach ($predictions as $fruitId => $forecast)

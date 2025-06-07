@@ -12,7 +12,7 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.distributor-sidebar')
-        <div class="col-span-4">
+        <div class="col-span-full md:col-span-4 min-h-screen">
             <div class="border-1 justify-between bg-clgreen m-8 rounded-4xl p-8 pt-2">
                 <div id="formResult" class="bg-caqua border-1 mx-auto w-full max-w-md rounded-xl text-center p-2 text-xl hidden">
                     Notifikasi sukses atau error
@@ -101,10 +101,14 @@
                     password.value = '';
                     passwordConfirmation.value = '';
                 } else {
-                    const messages = result.errors
-                        ? Object.values(result.errors).flat().join('\n')
-                        : result.message || 'Terjadi kesalahan.';
-                    showResult(messages, true);
+                    if (result.data) {
+                        const messages = Object.values(result.data).flat().join('\n');
+                        showResult(messages, true);
+                    } else if (result.message) {
+                        showResult(result.message, true);
+                    } else {
+                        showResult('Terjadi kesalahan.', true);
+                    }
                 }
             } catch (error) {
                 console.error(error);
