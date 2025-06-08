@@ -17,7 +17,7 @@
                 Data berhasil ditambahkan
             </div>
             <div class="flex justify-end m-8">
-                <button id="importButton" class="bg-botan2 px-4 py-2 rounded-4xl">Import Data</button>
+                <button id="importButton" class="bg-botan2 px-4 py-2 rounded-4xl"><i class="fa fa-upload"></i> Import Data</button>
             </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
         </div>
@@ -37,9 +37,14 @@
     <div id="importModal" class="fixed inset-0 bg-black/40 flex hidden flex-col items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg w-full max-w-md mt-2">
             <p class="text-lg font-bold">Instruksi Import Data</p>
-            <p class="mt-2">Silakan pilih file Excel (.xlsx atau .xls) yang ingin diunggah untuk mengimport data permintaan.</p>
+            <p class="mt-2">Silakan pilih file Excel (.xlsx atau .xls) yang ingin diunggah untuk mengimport data permintaan. Sebelum itu, pastikan beberapa hal berikut:</p>
+            <ol class="list-decimal ml-6 mt-2">
+                <li>Pastikan data yang akan diimport sudah sesuai dengan format yang telah ditentukan. Format tersebut bisa didownload <a class="text-blue-500" href="/storage/templates/template_import_penjualan.xlsx" target="_blank">di sini</a>.</li>
+                <li>Pastikan setiap kolom diisi dengan benar sesuai dengan jenis data yang diminta. Misalnya, kolom "Buah" dan "Distributor" harus berisi nama buah dan distributor yang valid, dan kolom "Permintaan" harus berisi angka yang menunjukkan jumlah permintaan dalam kilogram.</li>
+                <li>Jika ada kesalahan dalam format atau data yang diisi, sistem akan memberikan pesan kesalahan yang menjelaskan baris mana yang bermasalah.</li>
+            </ol>
             <input id="importFile" type="file" class="hidden" accept=".xlsx,.xls">
-            <div id="errorBox" class="text-red-500 mt-2 hidden"></div>
+            <div id="errorBox" class="text-red-500 mt-2 hidden overflow-y-scroll max-h-32"></div>
             <div class="flex justify-center mt-4">
                 <button id="uploadButton" class="bg-botan2 px-4 py-2 rounded-4xl">Upload</button>
                 <button id="closeImportModal" class="bg-botan2 px-4 py-2 rounded-4xl ml-2">Batal</button>

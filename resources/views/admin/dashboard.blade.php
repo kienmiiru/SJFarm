@@ -25,7 +25,7 @@
                 <div class="m-4 bg-white p-0 pb-4 rounded-2xl shadow md:w-2/5">
                     <div class="bg-ccgreen p-4 rounded-t-2xl font-medium text-xl">Pemasukan</div>
                     <div class="m-4">
-                        Pemasukan bulan ini: <span class="font-bold">{{ Number::format($incomeThisMonth, locale: 'id') }}</span>
+                        Pemasukan bulan ini: <span class="font-bold">Rp{{ Number::format($incomeThisMonth, locale: 'id') }}</span>
                     </div>
                 </div>
                 <div class="m-4 bg-white p-0 pb-4 rounded-2xl shadow md:w-2/5">
@@ -38,7 +38,7 @@
                     <div class="bg-ccgreen p-4 rounded-t-2xl font-medium text-xl">Stok Buah</div>
                     <div class="m-4">
                         @foreach ($fruits as $fruit)
-                            {{ $fruit->name }}: <span class="font-bold">{{ Number::format($fruit->stock_in_kg, locale: 'id') }}</span>
+                            {{ $fruit->name }}: <span class="font-bold">{{ Number::format($fruit->stock_in_kg, locale: 'id') }} kg</span>
                             <br>
                         @endforeach
                     </div>
