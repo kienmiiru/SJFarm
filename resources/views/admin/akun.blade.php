@@ -14,21 +14,21 @@
         @include('components.admin-sidebar')
         <div class="col-span-full md:col-span-4 min-h-screen">
             <div class="border-1 justify-between bg-clgreen m-8 rounded-4xl p-8 pt-2">
-                <div id="formResult" class="bg-caqua border-1 mx-auto w-full max-w-md rounded-xl text-center p-2 text-xl hidden">
+                <div id="formResult" class="bg-caqua border-1 mx-auto w-full max-w-md rounded-xl text-center p-2 text-md md:text-xl hidden">
                     tulis error atau sukses di sini
                 </div>
-                <form id="profileForm" class="my-4 text-xl">
+                <form id="profileForm" class="my-4 text-md md:text-xl">
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>Username:</label>
-                        <input type="text" id="username" class="border-none p-2 focus:outline-none w-1/2" value="{{ $admin->username }}">
+                        <input type="text" id="username" class="w-full border-none p-2 focus:outline-none md:w-1/2" value="{{ $admin->username }}">
                     </div>
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>Password Baru:</label>
-                        <input type="password" id="password" class="border-none p-2 focus:outline-none w-1/2" placeholder="Kosongi jika tidak diubah. Minimal 8 karakter">
+                        <input type="password" id="password" class="w-full border-none p-2 focus:outline-none md:w-1/2" placeholder="Kosongi jika tidak diubah">
                     </div>
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>Konfirmasi Password Baru:</label>
-                        <input type="password" id="passwordConfirmation" class="border-none p-2 focus:outline-none w-1/2">
+                        <input type="password" id="passwordConfirmation" class="w-full border-none p-2 focus:outline-none md:w-1/2">
                     </div>
                     <button id="submitButton" class="bg-botan3 px-2 py-1 min-w-24 rounded-4xl">Simpan</button>
                 </form>

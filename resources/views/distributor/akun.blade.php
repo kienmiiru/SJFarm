@@ -14,24 +14,24 @@
         @include('components.distributor-sidebar')
         <div class="col-span-full md:col-span-4 min-h-screen">
             <div class="border-1 justify-between bg-clgreen m-8 rounded-4xl p-8 pt-2">
-                <div id="formResult" class="bg-caqua border-1 mx-auto w-full max-w-md rounded-xl text-center p-2 text-xl hidden">
+                <div id="formResult" class="bg-caqua border-1 mx-auto w-full max-w-md rounded-xl text-center p-2 text-md md:text-xl hidden">
                     Notifikasi sukses atau error
                 </div>
-                <form id="distributorForm" class="my-4 text-xl">
+                <form id="distributorForm" class="my-4 text-md md:text-xl">
                     @php $d = $distributor; @endphp
                     @foreach (['name' => 'Nama', 'address' => 'Alamat', 'email' => 'Email', 'phone_number' => 'Nomor Telepon', 'username' => 'Username'] as $field => $label)
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>{{ $label }}:</label>
-                        <input type="text" id="{{ $field }}" class="border-none p-2 focus:outline-none w-1/2" value="{{ $d->$field }}">
+                        <input type="text" id="{{ $field }}" class="w-full border-none p-2 focus:outline-none" value="{{ $d->$field }}">
                     </div>
                     @endforeach
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>Password Baru:</label>
-                        <input type="password" id="password" class="border-none p-2 focus:outline-none w-1/2" placeholder="Kosongi jika tidak diubah">
+                        <input type="password" id="password" class="w-full border-none p-2 focus:outline-none" placeholder="Kosongi jika tidak diubah">
                     </div>
                     <div class="bg-white border-none rounded-4xl my-2 px-4 py-2">
                         <label>Konfirmasi Password Baru:</label>
-                        <input type="password" id="passwordConfirmation" class="border-none p-2 focus:outline-none w-1/2">
+                        <input type="password" id="passwordConfirmation" class="w-full border-none p-2 focus:outline-none">
                     </div>
                     <button id="submitButton" class="bg-botan3 px-2 py-1 min-w-24 rounded-4xl">Simpan</button>
                 </form>

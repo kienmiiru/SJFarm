@@ -91,7 +91,7 @@
         }
 
         function showForm(isEdit = false, data = {}) {
-            distributorPassword.placeholder = isEdit ? 'Password (kosongi jika tidak diubah, minimal 8 karakter)' : 'Password (minimal 8 karakter)'
+            distributorPassword.placeholder = isEdit ? 'Password (kosongi jika tdk diubah, minimal 8 karakter)' : 'Password (minimal 8 karakter)'
             distributorIdInput.value = data.id || '';
             distributorName.value = data.name || '';
             distributorUsername.value = data.username || '';
