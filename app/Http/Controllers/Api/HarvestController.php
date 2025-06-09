@@ -35,7 +35,7 @@ class HarvestController extends Controller
         $validator = Validator::make($request->all(), [
             'fruit_id' => 'required|exists:fruits,id',
             'amount_in_kg' => 'required|numeric|min:0',
-            'harvest_date' => 'required|date',
+            'harvest_date' => 'required|date|before_or_equal:today',
         ]);
 
         if ($validator->fails()) {
@@ -65,7 +65,7 @@ class HarvestController extends Controller
         $harvest = Harvest::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'amount_in_kg' => 'required|numeric|min:0',
-            'harvest_date' => 'required|date',
+            'harvest_date' => 'required|date|before_or_equal:today',
         ]);
 
         if ($validator->fails()) {

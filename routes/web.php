@@ -8,8 +8,8 @@ use App\Http\Controllers\Api\FruitController;
 use App\Http\Controllers\Api\HarvestController;
 use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\RequestImportController;
+use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PrediksiController;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Models\Admin;
 use App\Models\Distributor;
@@ -41,7 +41,7 @@ Route::middleware(EnsureUserHasRole::class.':admin')->group(function () {
         ]));
     });
 
-    Route::get('/admin/prediksi', [PrediksiController::class, 'index'])->name('prediksi.index');
+    Route::get('/admin/prediksi', [ForecastController::class, 'forecast'])->name('prediksi.index');
     Route::view('/admin/stok', 'admin.stok');
     Route::view('/admin/permintaan-pembelian', 'admin.permintaan-pembelian');
     Route::view('/admin/distributor', 'admin.distributor');

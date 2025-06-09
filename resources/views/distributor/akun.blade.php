@@ -61,7 +61,7 @@
             fields.forEach(f => {
                 const val = document.querySelector('#' + f).value.trim();
                 if (val === '') {
-                    showResult(`Kolom ${f.replace('_', ' ')} tidak boleh kosong.`, true);
+                    showResult(`Data harus diisi.`, true);
                     hasError = true;
                 } else {
                     data[f] = val;

@@ -180,8 +180,14 @@
                 harvest_date: harvestDate.value,
             };
 
-            if (!body.fruit_id || !body.harvest_date || !body.amount_in_kg) {
+            if (!body.fruit_id || !body.harvest_date || !parseFloat(body.amount_in_kg)) {
                 formError.innerText = 'Data harus diisi';
+                formError.classList.remove('hidden');
+                return;
+            }
+
+            if (new Date(body.harvest_date.value) > new Date()) {
+                formError.innerText = 'Isi data dengan benar.';
                 formError.classList.remove('hidden');
                 return;
             }

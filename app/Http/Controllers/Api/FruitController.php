@@ -55,13 +55,14 @@ class FruitController extends Controller
         $fruit = Fruit::findOrFail($id);
 
         $messages = [
-            'name.unique' => 'Nama buah sudah ada.'
+            'name.unique' => 'Nama buah sudah ada.',
+            'price_per_kg.gt' => 'Harga buah harus lebih dari 0.'
         ];
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:fruits,name,' . $fruit->id,
             'stock_in_kg' => 'required|numeric|min:0',
-            'price_per_kg' => 'required|integer|min:0',
+            'price_per_kg' => 'required|integer|gt:0',
         ], $messages);
 
         if ($validator->fails()) {
