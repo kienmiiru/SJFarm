@@ -14,7 +14,23 @@
         <div class="col-span-full md:col-span-4 min-h-screen p-8">
             <h1 class="text-2xl font-semibold text-center mb-4">Riwayat Permintaan</h1>
 
+            <div class="flex mb-4">
+                <select id="filterStatus" class="p-2 border-2 rounded">
+                    <option value="">Semua Status</option>
+                    <option value="pending">Menunggu persetujuan</option>
+                    <option value="approved">Disetujui</option>
+                    <option value="rejected">Ditolak</option>
+                </select>
+                <button id="applyFilters" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 mx-2 rounded-4xl">Terapkan</button>
+            </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between">
+            </div>
+            <div id="paginationControls" class="flex justify-center items-center mt-4 space-x-4">
+                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Sebelumnya</button>
+                <span id="paginationInfo" class="text-lg"></span>
+                <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
+                <span id="totalPages" class="text-lg"></span>
+                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Berikutnya</button>
             </div>
         </div>
     </div>
@@ -22,9 +38,19 @@
     <script>
         const requestList = document.getElementById('requestList');
 
+        let currentPage = 1;
+        let totalPages = 1;
+
         function renderRequests() {
             requestList.innerHTML = 'Memuat...';
-            fetch('/distributor/api/requests')
+            const status = document.getElementById('filterStatus').value;
+
+            const params = new URLSearchParams({
+                page: currentPage,
+                status: status
+            });
+
+            fetch('/distributor/api/requests?' + params.toString())
                 .then(res => res.json())
                 .then(json => {
                     requestList.innerHTML = '';
@@ -58,14 +84,30 @@
                                 break;
                             }
                             case 'approved': {
-                                statusP.innerText = `Diterima (${item.status_changed_date})`;
+                                const approvedDate = new Date(item.status_changed_date);
+                                const approvedDateString = approvedDate.toLocaleDateString('id-ID', {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "2-digit",
+                                });
+                                const approvedTimeString = approvedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
+                                statusP.innerText = `Disetujui (${approvedDateString} ${approvedTimeString})`;
                                 if (item.status_changed_message) {
                                     statusP.innerText += `\nCatatan: ${item.status_changed_message}`;
                                 }
                                 break;
                             }
                             case 'rejected': {
-                                statusP.innerText = `Ditolak (${item.status_changed_date})`;
+                                const rejectedDate = new Date(item.status_changed_date);
+                                const rejectedDateString = rejectedDate.toLocaleDateString('id-ID', {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "2-digit",
+                                });
+                                const rejectedTimeString = rejectedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
+                                statusP.innerText = `Ditolak (${rejectedDateString} ${rejectedTimeString})`;
                                 if (item.status_changed_message) {
                                     statusP.innerText += `\nCatatan: ${item.status_changed_message}`;
                                 }
@@ -74,8 +116,56 @@
                         }
                         requestList.appendChild(card);
                     });
+
+                    updatePagination(json.pagination);
                 });
         }
+
+        function updatePagination(pagination) {
+            currentPage = pagination.current_page;
+            totalPages = pagination.last_page;
+
+            const paginationInfo = document.getElementById('paginationInfo');
+            const pageInput = document.getElementById('pageInput');
+            const totalPagesSpan = document.getElementById('totalPages');
+            const prevPageButton = document.getElementById('prevPage');
+            const nextPageButton = document.getElementById('nextPage');
+
+            paginationInfo.innerText = `${(pagination.current_page - 1) * pagination.per_page + 1}-${Math.min(pagination.current_page * pagination.per_page, pagination.total)} dari ${pagination.total}`;
+            pageInput.value = pagination.current_page;
+            totalPagesSpan.innerText = `dari ${pagination.last_page}`;
+            prevPageButton.disabled = pagination.current_page === 1;
+            nextPageButton.disabled = pagination.current_page === pagination.last_page;
+        }
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderRequests();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderRequests();
+            }
+        });
+
+        document.getElementById('pageInput').addEventListener('change', (e) => {
+            const page = parseInt(e.target.value);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderRequests();
+            } else {
+                e.target.value = currentPage;
+            }
+        });
+
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            currentPage = 1;
+            renderRequests();
+        });
 
         renderRequests();
     </script>

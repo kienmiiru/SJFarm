@@ -6,23 +6,35 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request as HttpRequest; // Agar tidak konflik dengan model Request
 use App\Models\Request;
 use App\Models\Fruit;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RequestController extends Controller
 {
-    public function index()
+    public function index(HttpRequest $httpRequest)
     {
         $distributorId = session('distributor_id');
 
-        $requests = Request::with('fruit', 'status')
+        $query = Request::with('fruit', 'status')
             ->where('distributor_id', $distributorId)
-            ->orderBy('requested_date', 'desc')
-            ->get();
+            ->orderBy('requested_date', 'desc');
+
+        if ($httpRequest->has('status') && in_array($httpRequest->input('status'), ['pending', 'approved', 'rejected'])) {
+            $query->whereHas('status', function ($q) use ($httpRequest) {
+                $q->where('status', $httpRequest->input('status'));
+            });
+        }
+
+        $requests = $query->paginate(10);
 
         return response()->json([
             'status' => 'success',
-            'data' => $requests
+            'data' => $requests->items(),
+            'pagination' => [
+                'current_page' => $requests->currentPage(),
+                'last_page' => $requests->lastPage(),
+                'per_page' => $requests->perPage(),
+                'total' => $requests->total(),
+            ]
         ]);
     }
 

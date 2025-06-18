@@ -14,8 +14,11 @@
             <div id="message" @class([ 'bg-red-500', 'w-full', 'rounded-4xl', 'text-center', 'p-2', 'text-xl', 'invisible' => !($message ?? null)])>
                 {{ $message ?? '' }}
             </div>
+            <div class="flex justify-center mb-4">
+                <img src="/storage/sjfarm.png" alt="logo" class="h-24 w-auto">
+            </div>
             <h1 class="text-3xl font-bold">SJFarm</h1>
-            <p class="text-lg font-bold text-gray-400">Manage Kebunmu Dengan Mudah Dan Effortsly</p>
+            <p class="text-lg font-bold text-gray-400">Manage Kebunmu Dengan Mudah</p>
             <form novalidate id="login" class="mt-16" action="/" method="post">
                 @csrf
                 <input class="bg-white p-1 m-1 rounded-sm border-1 border-gray-400 w-full" type="text" name="login" placeholder="Username/Email" required><br>

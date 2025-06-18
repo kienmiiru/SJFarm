@@ -12,24 +12,42 @@
 <body>
     <div class="grid grid-cols-5 bg-ccream">
         @include('components.admin-sidebar')
-        <div class="col-span-full md:col-span-4 min-h-screen">
+        <div class="col-span-full md:col-span-4 min-h-screen mb-2">
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
-            <div class="flex justify-end m-8">
-                <button id="importButton" class="bg-botan2 px-4 py-2 rounded-4xl"><i class="fa fa-upload"></i> Import Data</button>
+            <div class="flex justify-between m-8">
+                <div class="flex space-x-4">
+                    <input id="filterDistributor" class="p-2 border-2 rounded" type="text" placeholder="Nama Distributor">
+                    <select id="filterStatus" class="p-2 border-2 rounded">
+                        <option value="">Semua Status</option>
+                        <option value="pending">Menunggu persetujuan</option>
+                        <option value="approved">Disetujui</option>
+                        <option value="rejected">Ditolak</option>
+                    </select>
+                    <button id="applyFilters" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl">Terapkan</button>
+                </div>
+                <button id="importButton" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl"><i class="fa fa-upload"></i> Import Data</button>
             </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
+            <div id="paginationControls" class="flex justify-center items-center mt-4 space-x-4">
+                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Sebelumnya</button>
+                <span id="paginationInfo" class="text-lg"></span>
+                <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
+                <span id="totalPages" class="text-lg"></span>
+                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Berikutnya</button>
+            </div>
         </div>
     </div>
 
     <div id="promptModal" class="fixed inset-0 bg-black/40 flex hidden flex-col items-center justify-center z-50">
+        <div id="formError" class="bg-red-600 w-full max-w-md rounded-4xl text-center p-2 hidden text-xl"></div>
         <div class="bg-white p-6 rounded-lg w-full max-w-md mt-2">
             <p>Yakin ingin menerima permintaan ini?</p>
-            <input class="w-full m-2 p-2 border-2 bg-white" type="text" name="msg" id="msg" placeholder="Pesan untuk distributor... (opsional)">
+            <input class="w-full m-2 p-2 border-2 bg-white" type="text" name="msg" id="msg" placeholder="Pesan untuk distributor...">
             <div id="confirmButtons" class="flex space-x-2 justify-center">
-                <button class="bg-botan2 px-2 py-1 rounded-4xl">Konfirmasi</button>
-                <button class="bg-botan2 px-2 py-1 rounded-4xl">Batal</button>
+                <button class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl">Konfirmasi</button>
+                <button class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl">Batal</button>
             </div>
         </div>
     </div>
@@ -46,8 +64,8 @@
             <input id="importFile" type="file" class="hidden" accept=".xlsx,.xls">
             <div id="errorBox" class="text-red-500 mt-2 hidden overflow-y-scroll max-h-32"></div>
             <div class="flex justify-center mt-4">
-                <button id="uploadButton" class="bg-botan2 px-4 py-2 rounded-4xl">Upload</button>
-                <button id="closeImportModal" class="bg-botan2 px-4 py-2 rounded-4xl ml-2">Batal</button>
+                <button id="uploadButton" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl">Upload</button>
+                <button id="closeImportModal" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl ml-2">Batal</button>
             </div>
         </div>
     </div>
@@ -55,8 +73,25 @@
     <script>
         const requestList = document.getElementById('requestList');
         const successBox = document.getElementById('successBox');
+        const formError = document.getElementById('formError');
+        
+        function hideFormError() {
+            formError.classList.add('hidden');
+            formError.innerText = '';
+        }
 
-        function prompt(message) {
+        function showFormError(message) {
+            formError.classList.remove('hidden');
+            formError.innerText = message;
+        }
+
+        function hidePrompt() {
+            const promptModal = document.getElementById('promptModal');
+            promptModal.classList.add('hidden');
+        }
+
+        function prompt(message, hideAfter = true) {
+            hideFormError();
             const promptModal = document.getElementById('promptModal');
             promptModal.classList.remove('hidden');
             const confirmButtons = document.getElementById('confirmButtons');
@@ -68,16 +103,18 @@
             confirmButtons.innerHTML = '';
             const button1 = document.createElement('button');
             const button2 = document.createElement('button');
-            button1.className = 'bg-botan2 px-2 py-1 rounded-4xl';
+            button1.className = 'bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl';
             button1.innerText = 'Konfirmasi';
-            button2.className = 'bg-botan2 px-2 py-1 rounded-4xl';
+            button2.className = 'bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl';
             button2.innerText = 'Batal';
 
             confirmButtons.append(button1, button2);
 
             return new Promise(res => {
                 button1.addEventListener('click', () => {
-                    promptModal.classList.add('hidden');
+                    if (hideAfter) {
+                        hidePrompt();
+                    }
                     res([true, msgInput.value]);
                 })
                 button2.addEventListener('click', () => {
@@ -97,7 +134,7 @@
             const url = '/admin/api/requests/' + id + '/' + what;
             const body = {};
 
-            const [yesClicked, message] = await prompt('Yakin ingin ' + (what == 'approve' ? 'menerima' : 'menolak') + ' permintaan ini?');
+            const [yesClicked, message] = await prompt('Yakin ingin ' + (what == 'approve' ? 'menerima' : 'menolak') + ' permintaan ini?', false);
             if (!yesClicked) return;
             if (message) {
                 body.message = message;
@@ -114,17 +151,30 @@
                 .then(res => res.json())
                 .then(json => {
                     if (json.status === 'error') {
-                        
+                        showFormError(json.message);
                     } else {
                         showSuccess(json.message);
                         renderRequests();
+                        hidePrompt();
                     }
                 });
         }
         
+        let currentPage = 1;
+        let totalPages = 1;
+
         function renderRequests() {
             requestList.innerHTML = 'Memuat...';
-            fetch('/admin/api/requests')
+            const distributorName = document.getElementById('filterDistributor').value;
+            const status = document.getElementById('filterStatus').value;
+
+            const params = new URLSearchParams({
+                page: currentPage,
+                distributor_name: distributorName,
+                status: status
+            });
+
+            fetch('/admin/api/requests?' + params.toString())
                 .then(res => res.json())
                 .then(json => {
                     requestList.innerHTML = '';
@@ -160,14 +210,30 @@
                                 break;
                             }
                             case 'approved': {
-                                statusP.innerText = `Status: Disetujui (${item.status_changed_date})`;
+                                const approvedDate = new Date(item.status_changed_date);
+                                const approvedDateString = approvedDate.toLocaleDateString('id-ID', {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "2-digit",
+                                });
+                                const approvedTimeString = approvedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
+                                statusP.innerText = `Status: Disetujui (${approvedDateString} ${approvedTimeString})`;
                                 if (item.status_changed_message) {
                                     statusP.innerText += `\nCatatan: ${item.status_changed_message}`;
                                 }
                                 break;
                             }
                             case 'rejected': {
-                                statusP.innerText = `Status: Ditolak (${item.status_changed_date})`;
+                                const rejectedDate = new Date(item.status_changed_date);
+                                const rejectedDateString = rejectedDate.toLocaleDateString('id-ID', {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "2-digit",
+                                });
+                                const rejectedTimeString = rejectedDate.toLocaleTimeString('id-ID', { timeStyle: 'long' });
+                                statusP.innerText = `Status: Ditolak (${rejectedDateString} ${rejectedTimeString})`;
                                 if (item.status_changed_message) {
                                     statusP.innerText += `\nCatatan: ${item.status_changed_message}`;
                                 }
@@ -179,15 +245,58 @@
                             const divButton = document.createElement('div');
                             divButton.className = 'flex justify-around mt-4';
                             divButton.innerHTML = `
-                                <button class="bg-botan2 px-2 py-1 rounded-4xl" onclick="confirmRequest(${item.id}, 'approve')">Terima</button>
-                                <button class="bg-botan2 px-2 py-1 rounded-4xl" onclick="confirmRequest(${item.id}, 'reject')">Tolak</button>`;
+                                <button class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" onclick="confirmRequest(${item.id}, 'approve')">Terima</button>
+                                <button class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" onclick="confirmRequest(${item.id}, 'reject')">Tolak</button>`;
                             card.append(divButton);
                         }
 
                         requestList.appendChild(card);
                     });
+
+                    updatePagination(json.pagination);
                 });
         }
+
+        function updatePagination(pagination) {
+            currentPage = pagination.current_page;
+            totalPages = pagination.last_page;
+
+            const paginationInfo = document.getElementById('paginationInfo');
+            const pageInput = document.getElementById('pageInput');
+            const totalPagesSpan = document.getElementById('totalPages');
+            const prevPageButton = document.getElementById('prevPage');
+            const nextPageButton = document.getElementById('nextPage');
+
+            paginationInfo.innerText = `${(pagination.current_page - 1) * pagination.per_page + 1}-${Math.min(pagination.current_page * pagination.per_page, pagination.total)} dari ${pagination.total}`;
+            pageInput.value = pagination.current_page;
+            totalPagesSpan.innerText = `dari ${pagination.last_page}`;
+            prevPageButton.disabled = pagination.current_page === 1;
+            nextPageButton.disabled = pagination.current_page === pagination.last_page;
+        }
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderRequests();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderRequests();
+            }
+        });
+
+        document.getElementById('pageInput').addEventListener('change', (e) => {
+            const page = parseInt(e.target.value);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderRequests();
+            } else {
+                e.target.value = currentPage;
+            }
+        });
 
         const importButton = document.getElementById('importButton');
         const importFile = document.getElementById('importFile');
@@ -260,6 +369,11 @@
                 errorBox.innerText = 'Terjadi kesalahan saat mengimport data.';
                 errorBox.classList.remove('hidden');
             }
+        });
+
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            currentPage = 1;
+            renderRequests();
         });
 
         renderRequests();

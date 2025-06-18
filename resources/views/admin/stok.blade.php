@@ -82,7 +82,7 @@
                 const row = document.createElement('div');
                 row.className = 'flex justify-between items-center border-b py-2';
                 row.innerHTML = `
-                    <span>Buah ${fruit.name}: ${fruit.stock_in_kg} kg</span>
+                    <span>Buah ${fruit.name}: ${parseFloat(fruit.stock_in_kg).toLocaleString('id-ID')} kg</span>
                     <button class="px-3 py-1 bg-botan rounded-4xl hover:bg-botan/80" onclick="openModal(${fruit.id}, '${fruit.name}', ${fruit.stock_in_kg}, ${fruit.price_per_kg})">Edit</button>
                 `;
                 container.appendChild(row);
