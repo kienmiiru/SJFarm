@@ -16,26 +16,28 @@
             <div id="successBox" class="bg-caqua mx-auto w-full max-w-md rounded-4xl text-center mt-2 p-2 hidden text-xl">
                 Data berhasil ditambahkan
             </div>
-            <div class="flex justify-between m-8">
-                <div class="flex space-x-4">
-                    <input id="filterDistributor" class="p-2 border-2 rounded" type="text" placeholder="Nama Distributor">
-                    <select id="filterStatus" class="p-2 border-2 rounded">
+            <div class="flex flex-col md:flex-row justify-between m-4 md:m-8 space-y-2 md:space-y-0">
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                    <input id="filterDistributor" class="p-2 border-2 rounded w-full md:w-auto" type="text" placeholder="Nama Distributor">
+                    <select id="filterStatus" class="p-2 border-2 rounded w-full md:w-auto">
                         <option value="">Semua Status</option>
                         <option value="pending">Menunggu persetujuan</option>
                         <option value="approved">Disetujui</option>
                         <option value="rejected">Ditolak</option>
                     </select>
-                    <button id="applyFilters" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl">Terapkan</button>
+                    <button id="applyFilters" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl w-full md:w-auto">Terapkan</button>
                 </div>
-                <button id="importButton" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl"><i class="fa fa-upload"></i> Import Data</button>
+                <button id="importButton" class="bg-botan2 hover:bg-botan2/80 px-4 py-2 rounded-4xl w-full md:w-auto"><i class="fa fa-upload"></i> Import Data</button>
             </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between bg-clgreen m-8 rounded-4xl p-8"></div>
-            <div id="paginationControls" class="flex justify-center items-center mt-4 space-x-4">
-                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Sebelumnya</button>
-                <span id="paginationInfo" class="text-lg"></span>
-                <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
-                <span id="totalPages" class="text-lg"></span>
-                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Berikutnya</button>
+            <div id="paginationControls" class="flex flex-col md:flex-row justify-center items-center mt-4 space-y-2 md:space-y-0 md:space-x-4">
+                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl w-full md:w-auto" disabled>Sebelumnya</button>
+                <span id="paginationInfo" class="text-lg w-full md:w-auto text-center"></span>
+                <div class="flex items-center w-full md:w-auto justify-center space-x-2">
+                    <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
+                    <span id="totalPages" class="text-lg"></span>
+                </div>
+                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl w-full md:w-auto" disabled>Berikutnya</button>
             </div>
         </div>
     </div>

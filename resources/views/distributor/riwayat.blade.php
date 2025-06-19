@@ -25,12 +25,14 @@
             </div>
             <div id="requestList" class="md:flex md:flex-wrap justify-between">
             </div>
-            <div id="paginationControls" class="flex justify-center items-center mt-4 space-x-4">
-                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Sebelumnya</button>
-                <span id="paginationInfo" class="text-lg"></span>
-                <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
-                <span id="totalPages" class="text-lg"></span>
-                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl" disabled>Berikutnya</button>
+            <div id="paginationControls" class="flex flex-col md:flex-row justify-center items-center mt-4 space-y-2 md:space-y-0 md:space-x-4">
+                <button id="prevPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl w-full md:w-auto" disabled>Sebelumnya</button>
+                <span id="paginationInfo" class="text-lg w-full md:w-auto text-center"></span>
+                <div class="flex items-center w-full md:w-auto justify-center space-x-2">
+                    <input id="pageInput" type="number" class="w-16 p-1 border-2 rounded text-center" min="1" value="1">
+                    <span id="totalPages" class="text-lg"></span>
+                </div>
+                <button id="nextPage" class="bg-botan2 hover:bg-botan2/80 px-2 py-1 rounded-4xl w-full md:w-auto" disabled>Berikutnya</button>
             </div>
         </div>
     </div>
